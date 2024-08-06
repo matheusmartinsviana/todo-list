@@ -1,6 +1,6 @@
-let inputBox = document.getElementById("input-box")
-let submitButton = document.getElementById("submit-button")
-let listContainer = document.getElementById("list-container")
+let inputBox = document.querySelector(".input-box")
+let submitButton = document.querySelector(".submit-button")
+let listContainer = document.querySelector(".list-container")
 
 function createTask() {
     if (inputBox.value === "") {
@@ -12,14 +12,21 @@ function createTask() {
         let span = document.createElement("span")
         span.innerHTML = "\u00d7"
         li.appendChild(span)
+        save()
     }
     inputBox.value = ""
 }
 
-listContainer.addEventListener("click", function(e) {
-if (e.target.tagName === "LI") {
+listContainer.addEventListener("click", function (e) {
+    if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked")
-    } else if(e.target.tagName === "SPAN") {
+    } else if (e.target.tagName === "SPAN") {
         e.target.parentElement.remove()
     }
 }, false)
+
+function save() {
+    localStorage.setItem("data", listContainer.value)
+}
+
+listContainer.value = localStorage.getItem("data")
