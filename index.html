@@ -1,29 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="scripts.js"></script>
-    <title>TODO List</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Tarefas</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <div class="main-container">
-        <main>
-            <h1>Todo List Using JS</h1>
-            <form class="form-container">
-                <input type="text" class="input-box" placeholder="Write a new task">
-                <input type="button" value="Add" class="submit-button" onclick="createTask()">
-            </form>
-            <ul class="list-container">
-            </ul>
-        </main>
-    </div>
+  <div class="container">
+    <h1>Lista de Tarefas</h1>
+    <input type="text" id="todo-input" placeholder="Adicione uma nova tarefa">
+    <button id="add-button">Adicionar</button>
+    <ul id="todo-list"></ul>
+  </div>
+  <script src="scripts.js"></script>
 </body>
-
 </html>
