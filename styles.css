@@ -55,7 +55,8 @@ li {
     align-items: center;
 }
 
-li:last-child {
+
+li button:last-child {
     border-bottom: none;
 }
 

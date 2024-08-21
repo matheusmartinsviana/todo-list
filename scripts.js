@@ -3,59 +3,79 @@ document.addEventListener('DOMContentLoaded', () => {
     const addButton = document.getElementById('add-button');
     const todoList = document.getElementById('todo-list');
 
-    addButton.addEventListener('click', addTodo);
-
+    addButton.addEventListener('click', addItem);
     todoInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            addTodo();
+            addItem();
         }
     });
 
-    function addTodo() {
+    todoList.addEventListener('click', handleListClick);
+
+    function addItem() {
         const todoText = todoInput.value.trim();
         if (todoText !== '') {
             const li = document.createElement('li');
-            li.textContent = todoText;
-
-            const updateButton = document.createElement('button');
-            updateButton.textContent = 'Atualizar';
-            updateButton.className = 'update';
-            li.appendChild(updateButton);
-
-            updateButton.addEventListener('click', () => {
-                const inputUpdated = document.createElement('input')
-                li.append(inputUpdated)
-                inputUpdated.placeholder = "Digite o novo texto para essa tarefa"
-                inputUpdated.addEventListener("keypress", (e) => {
-                    if (e.key === 'Enter') {
-                        li.textContent = inputUpdated.value
-                        const updateButton = document.createElement('button');
-                        updateButton.textContent = 'Atualizar';
-                        updateButton.className = 'update';
-                        li.appendChild(updateButton);
-                        const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Deletar';
-                        deleteButton.className = 'delete';
-                        li.appendChild(deleteButton);
-                        deleteButton.addEventListener('click', () => {
-                            todoList.removeChild(li);
-                        });
-                    }
-                })
-            });
-
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Deletar';
-            deleteButton.className = 'delete';
-
-            deleteButton.addEventListener('click', () => {
-                todoList.removeChild(li);
-            });
-
-            li.appendChild(deleteButton);
+            li.innerHTML = `
+                ${todoText}
+                <div class="buttons">
+                    <button class="update">Atualizar</button>
+                    <button class="delete">Deletar</button>
+                </buttons>
+            `;
             todoList.appendChild(li);
             todoInput.value = '';
             todoInput.focus();
         }
+    }
+
+    function handleListClick(e) {
+        const target = e.target;
+        const li = target.closest('li');
+        if (target.classList.contains('update')) {
+            handleUpdate(li);
+        } else if (target.classList.contains('delete')) {
+            li.remove();
+        }
+    }
+
+    function handleUpdate(li) {
+        const currentText = li.firstChild.textContent.trim();
+        li.innerHTML = `
+            <input type="text" placeholder="Digite o novo texto para essa tarefa" value="${currentText}">
+            <div class="buttons">
+                <button class="confirm">Confirmar</button>
+                <button class="delete">Deletar</button>
+            </div>
+        `;
+        const inputUpdated = li.querySelector('input');
+        inputUpdated.focus();
+        inputUpdated.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const newText = inputUpdated.value.trim();
+                if (newText !== '') {
+                    li.innerHTML = `
+                        ${newText}
+                        <div class="buttons">
+                            <button class="update">Atualizar</button>
+                            <button class="delete">Deletar</button>
+                        </div>
+                    `;
+                }
+            }
+        });
+        const confirmButton = li.querySelector('.confirm');
+        confirmButton.addEventListener('click', () => {
+            const newText = inputUpdated.value.trim();
+            if (newText !== '') {
+                li.innerHTML = `
+                    ${newText}
+                    <div class="buttons">
+                        <button class="update">Atualizar</button>
+                        <button class="delete">Deletar</button>
+                    </div>
+                `;
+            }
+        });
     }
 });
